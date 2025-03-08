@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import ContactUs from "./contact"; // Import the ContactUs component
+import ContactUs from "./components/ContactUs";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/contact-us" component={ContactUs} />
+        <Route exact path="/" component={ContactUs}/>
       </Switch>
     </Router>
   );
