@@ -76,7 +76,8 @@ const ContactUs = () => {
           { title: "Suppliers", content: "Find trusted toy suppliers through wholesale markets and online platforms." },
           { title: "You should know", content: "Ensure toys meet safety standards and are age-appropriate before purchasing." },
           { title: "Where to get", content: "Best places to buy toys include Amazon, Walmart, and specialty toy stores." },
-          { title: "Location", content: "Our store is located in multiple cities; check our store locator for details." },
+          { title: "Location", content: "Our store is located in multiple cities; check our store locator for details.Tinybots, Shop No F, 37 & S/37, PHOENIX MARKETCITY, Lal Bahadur Shastri Marg, near Old Mukand Premises, Kamani, Kurla West, Kurla, Mumbai, Maharashtra 400070."
+           },
           { title: "Best for kids", content: "Educational toys like LEGO, puzzles, and STEM kits are great choices for children." }
         ].map((item, index) => (
           <div key={index} className="toggle-item">
@@ -90,6 +91,8 @@ const ContactUs = () => {
       </div>
 
       {/* Social Media Section */}
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       <div className="social-media-section">
         <h3>Follow Us for Daily Updates</h3>
         <div className="social-icons">
@@ -100,7 +103,7 @@ const ContactUs = () => {
     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" />
   </a>
   <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/X_logo_2023_original.svg" alt="Twitter" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/X_logo_2023.svg" alt="Twitter" />
   </a>
   <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube" />
