@@ -1,110 +1,155 @@
-// src/components/Checkout.js
-import React, { useState } from "react";
-import "../Checkout.css";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import './Checkout.css';
 
 const Checkout = () => {
-  const history = useHistory();
-  const [formData, setFormData] = useState({
-    fullName: "",
-    address: "",
-    city: "",
-    zip: "",
-    paymentMethod: "card",
+  const [userData, setUserData] = useState({
+    name: '',
+    address: '',
+    postalCode: '',
   });
+  const [isReturningUser, setIsReturningUser] = useState(false);
+  const [selectedPayment, setSelectedPayment] = useState('savedCard');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    // Check if user data exists in localStorage
+    const storedUserData = JSON.parse(localStorage.getItem('userData'));
+    if (storedUserData) {
+      setUserData(storedUserData);
+      setIsReturningUser(true);
+    }
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
   };
 
-  const handlePayment = (e) => {
-    e.preventDefault();
-    history.push("/confirmation");
+  const handlePlaceOrder = () => {
+    if (!isReturningUser) {
+      localStorage.setItem('userData', JSON.stringify(userData));
+    }
+    alert('Order Placed Successfully!');
+  };
+
+  const handlePaymentChange = (e) => {
+    setSelectedPayment(e.target.value);
   };
 
   return (
-    <div className="checkout-container">
-      <h2>Checkout</h2>
-      <form onSubmit={handlePayment} className="checkout-form">
-        <h3>Shipping Details</h3>
-        <input
-          type="text"
-          name="fullName"
-          placeholder="Full Name"
-          value={formData.fullName}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="city"
-          placeholder="City"
-          value={formData.city}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="zip"
-          placeholder="ZIP Code"
-          value={formData.zip}
-          onChange={handleChange}
-          required
-        />
+    <div className="checkout-page">
+      {/* Address Section */}
+      <div className="section address-section">
+        <h2>Delivery Address</h2>
+        {isReturningUser && userData.name && userData.address ? (
+          <div className="saved-address">
+            <p><strong>{userData.name}</strong></p>
+            <p>
+              {userData.address}
+              {userData.postalCode ? `, ${userData.postalCode}` : ''}
+            </p>
+          </div>
+        ) : (
+          <div className="address-form">
+            <div className="input-group">
+              <label htmlFor="name">Full Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter Full Name"
+                value={userData.name}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-        <h3>Payment Method</h3>
-        <div className="payment-options">
-          <label>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="card"
-              checked={formData.paymentMethod === "card"}
-              onChange={handleChange}
-            />
-            <img src="/icons/card.png" alt="Card" /> Credit/Debit Card
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="netbanking"
-              onChange={handleChange}
-            />
-            <img src="/icons/netbanking.png" alt="Net Banking" /> Net Banking
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="upi"
-              onChange={handleChange}
-            />
-            <img src="/icons/upi.png" alt="UPI" /> UPI Apps
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="cod"
-              onChange={handleChange}
-            />
-            <img src="/icons/cod.png" alt="COD" /> Cash on Delivery
+            <div className="input-group">
+              <label htmlFor="address">Address</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                placeholder="Enter Address"
+                value={userData.address}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="postalCode">Postal Code</label>
+              <input
+                type="text"
+                id="postalCode"
+                name="postalCode"
+                placeholder="Enter Postal Code"
+                value={userData.postalCode}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Payment Section */}
+      <div className="section payment-section">
+        <h2>Payment Method</h2>
+        <div className="balance-section">
+          <input type="text" placeholder="Enter Code" className="code-input" />
+          <button className="apply-btn">Apply</button>
+        </div>
+
+        {/* Saved Card */}
+        <div className="payment-option">
+          <input
+            type="radio"
+            id="savedCard"
+            name="payment"
+            value="savedCard"
+            checked={selectedPayment === 'savedCard'}
+            onChange={handlePaymentChange}
+          />
+          <label htmlFor="savedCard" className="saved-card">
+            <span className="visa">Visa</span> ending in 1541 - Other
           </label>
         </div>
 
-        <button type="submit" className="place-order-btn">
-          Use This Payment Method
-        </button>
-      </form>
+        <h3>Another payment method</h3>
+        <div className="payment-options">
+          {[
+            { id: 'card', label: 'Credit or Debit Card' },
+            { id: 'netBanking', label: 'Net Banking' },
+            { id: 'upi', label: 'Other UPI Apps' },
+            { id: 'emi', label: 'EMI' },
+            { id: 'cod', label: 'Cash on Delivery/Pay on Delivery' },
+          ].map((option) => (
+            <div className="payment-option" key={option.id}>
+              <input
+                type="radio"
+                id={option.id}
+                name="payment"
+                value={option.id}
+                checked={selectedPayment === option.id}
+                onChange={handlePaymentChange}
+              />
+              <label htmlFor={option.id}>{option.label}</label>
+              {option.id === 'netBanking' && selectedPayment === 'netBanking' && (
+                <select className="net-banking-dropdown">
+                  <option>Choose an Option</option>
+                  <option>SBI</option>
+                  <option>HDFC</option>
+                </select>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Place Order Button */}
+      <button className="place-order-btn" onClick={handlePlaceOrder}>
+        Place Your Order
+      </button>
     </div>
   );
 };

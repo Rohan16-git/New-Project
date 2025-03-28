@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ContactUs from "./components/ContactUs";
 import Checkout from "./components/Checkout";
-import Proceed from "./Proceed";
+import Proceed from "./components/Proceed";
 
 function App() {
   return (
